@@ -104,13 +104,23 @@ function renderPage(pdf, pageNumber, maxPages) {
             let finalText = [];
             for (let i = 0; i < textItems.length; i++) {
                 let item = textItems[i];
-		if(!escreve && item.str!="DESCONTOS DE CARTÃO") continue;
-		escreve=true;
+		    if(!escreve && item.str!="DESCONTOS DE CARTÃO") continue;
+		    escreve=true;
                 finalText += item.str + ';';
 
 		if(item.str=="ANUAL") finalText=";";
             }	
-		if(escreve) doc = doc.concat(finalText.split(numBanco.value));
+		if(escreve){
+			let lista = [];
+			finalText.split(numBanco.value).forEach((paragraph)=>{
+				while(paragraph.indexOf(";") != paragraph.indexOf(";R$"))
+				{
+				  paragraph = paragraph.replace(";", " ");
+				}
+				lista.push(paragraph);
+			});
+			doc = doc.concat(lista);
+		}
             renderPage(pdf, pageNumber + 1, maxPages);
         });
     });
