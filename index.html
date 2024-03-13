@@ -160,7 +160,7 @@ function calc()
 	doc.forEach((item)=>{
     	dados = item.split(";");
     	if(dados[0].toLowerCase().includes(banco.value.toLowerCase())){
-    		soma += parseFloat(dados[5].replace("R$", "").replace(",", ""));
+    		soma += parseFloat((dados[5]+"").replace("R$", "").replace(",", ""));
     		contador++;
             let paragrafo = document.createElement("li");
             if (datasDesc.checked == true)
@@ -172,6 +172,7 @@ function calc()
 	}
 	});
 	document.getElementById('pdfText').innerHTML = ("O total é <b>R$ "+(soma/100).toFixed(2)+"</b> com <b>"+contador+"</b> descontos").replace(".",",");
+escreve = false;
 
 }
 </script>
