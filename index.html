@@ -196,7 +196,8 @@ function calc()
             document.getElementById("lista").append(paragrafo);
 	}
 	});
-	document.getElementById('pdfText').innerHTML = ("O total é <b>R$ "+(soma/100).toFixed(2)+"</b> com <b>"+contador+"</b> descontos de <b>R$ "+(minV/100).toFixed(2)+" - R$ "+(maxV/100).toFixed(2)+"</b>").replaceAll(".",",");
+	if(contador < 1) document.getElementById('pdfText').innerHTML = "Não foram identificados descontos, verifique o preenchimento dos dados";
+      else document.getElementById('pdfText').innerHTML = ("O total é <b>R$ "+(soma/100).toFixed(2)+"</b> com <b>"+contador+"</b> descontos de <b>R$ "+(minV/100).toFixed(2)+" - R$ "+(maxV/100).toFixed(2)+"</b>").replaceAll(".",",");
 escreve = false;
 
 }
