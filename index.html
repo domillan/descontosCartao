@@ -15,6 +15,13 @@
         font-family: Arial, sans-serif;
         margin: 20px;
     }
+	table {width: 100%;}
+
+table, td{
+        border: 1px solid;
+border-spacing: 2px;
+    border-color: gray;
+    }
     #pdfText {
         white-space: pre-wrap;
     }
@@ -44,11 +51,12 @@
         </div>
 	<div class="col-md-3">
 <div class="dropdown">
-  <button class="btn btn-outline-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
   <ul class="dropdown-menu">
     <li class="dropdown-item" value="318" onclick="preenche(this)">BMG</li>
     <li class="dropdown-item" value="336" onclick="preenche(this)">C6</li>
     <li class="dropdown-item" value="104" onclick="preenche(this)">Caixa</li>
+    <li class="dropdown-item" value="739" onclick="preenche(this)">Cetelem</li>
     <li class="dropdown-item" value="707" onclick="preenche(this)">Daycoval</li>
     <li class="dropdown-item" value="623" onclick="preenche(this)">Pan</li>
     <li class="dropdown-item text-black-50" onclick="divImg.classList.toggle('d-none');"><i>Detalhes</i></li>
@@ -74,7 +82,8 @@
     </div>
     <div class="row mt-4">
         <div class="col-md-12">
-            <h4><div id="pdfText" class="mt-4"></div></h4>
+            <h4><div id="pdfText" class="mt-4"></div> </h4>
+            <button id="copiarB" class="btn btn-sm btn-outline-info d-none" onclick="copy()">Copiar</button> <i id="avisoB"></i>
         </div>
     </div>
     <div class="row mt-4">
@@ -89,6 +98,7 @@ var escreve = false;
 var doc = [];
 var contador = 0;
 var soma = 0.0;
+var inicio;
 
 function preenche(e) {
 	banco.value = e.innerHTML;
@@ -152,20 +162,34 @@ function renderPage(pdf, pageNumber, maxPages) {
     });
 }
 
+function nF(num)
+{
+	return num.toLocaleString('pt-BR', {minimumFractionDigits: 2,maximumFractionDigits: 2});
+}
+
+function copy()
+{
+navigator.clipboard.write([new ClipboardItem({'text/html': new Blob([ document.getElementById('pdfText').innerHTML], {type: 'text/html'})})]);
+document.getElementById('avisoB').innerHTML="Copiado!";
+}
+
 function calc()
 {
     
     document.getElementById("lista").innerHTML = "";
     document.getElementById('pdfText').innerHTML = "";
+	document.getElementById('avisoB').innerHTML="";
 	contador = 0;
 	soma = 0.0;
 	maxV = 0;
 	minV = Infinity;
-    regex = /(\d{2})\/(\d{4})/;
+      inicio="??/????";
+      regex = /(\d{2})\/(\d{4})/;
 
-    if(banco.value=="" || numBanco.value=="")
-        return;
-
+    if(banco.value=="" || numBanco.value==""){
+       copiarB.classList.add("d-none");
+       return;
+    }
     if (datasDesc.checked == true)
     doc.sort(function(a,b)
         {
@@ -188,17 +212,25 @@ function calc()
 		if(val<minV) minV = val;
     		contador++;
             let paragrafo = document.createElement("li");
-            if (datasDesc.checked == true)
+            if (datasDesc.checked == true){
               paragrafo.innerHTML = "<b>"+dados[5] + "</b> - " + dados[3];
-            else
+		  if(inicio=="??/????") inicio = dados[3];
+            }else
               paragrafo.innerHTML = "<b>"+dados[5] + "</b>";
             paragrafo.classList.add("list-group-item");
             document.getElementById("lista").append(paragrafo);
 	}
 	});
-	if(contador < 1) document.getElementById('pdfText').innerHTML = "Não foram identificados descontos, verifique o preenchimento dos dados";
-      else document.getElementById('pdfText').innerHTML = ("O total é <b>R$ "+(soma/100).toFixed(2)+"</b> com <b>"+contador+"</b> descontos de <b>R$ "+(minV/100).toFixed(2)+" - R$ "+(maxV/100).toFixed(2)+"</b>").replaceAll(".",",");
-escreve = false;
+      escreve = false;
+	if(contador < 1){
+         copiarB.classList.add("d-none");
+         document.getElementById('pdfText').innerHTML = "Não foram identificados descontos, verifique o preenchimento dos dados";
+      }
+      else{
+          copiarB.classList.remove("d-none");
+          document.getElementById('pdfText').innerHTML = ("<table><tbody><tr><td><strong>Nº do contrato</strong></td><td><strong>Início dos descontos</strong></td><td><strong>Nº de descontos</strong></td><td><strong>Valor da parcela</strong></td><td><strong>Valor descontado</strong></td></tr><tr><td></td><td>"+inicio+"</td><td>"+contador+"</td><td>R$ "+nF(minV/100)+" - R$ "+nF(maxV/100)+"</td><td>R$ "+nF(soma/100)+"</td></tr></tbody></table>");
+      }
+
 
 }
 </script>
