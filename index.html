@@ -90,7 +90,6 @@ var doc = [];
 var contador = 0;
 var soma = 0.0;
 
-
 function preenche(e) {
 	banco.value = e.innerHTML;
 	numBanco.value = e.value;
@@ -160,6 +159,8 @@ function calc()
     document.getElementById('pdfText').innerHTML = "";
 	contador = 0;
 	soma = 0.0;
+	maxV = 0;
+	minV = Infinity;
     regex = /(\d{2})\/(\d{4})/;
 
     if(banco.value=="" || numBanco.value=="")
@@ -181,7 +182,10 @@ function calc()
 	doc.forEach((item)=>{
     	dados = item.split(";");
     	if(dados[0].toLowerCase().includes(banco.value.toLowerCase())){
-    		soma += parseFloat((dados[5]+"").replace("R$", "").replace(",", ""));
+		let val = parseFloat((dados[5]+"").replace("R$", "").replace(",", ""));
+    		soma += val;
+		if(val>maxV) maxV = val;
+		if(val<minV) minV = val;
     		contador++;
             let paragrafo = document.createElement("li");
             if (datasDesc.checked == true)
@@ -192,7 +196,7 @@ function calc()
             document.getElementById("lista").append(paragrafo);
 	}
 	});
-	document.getElementById('pdfText').innerHTML = ("O total é <b>R$ "+(soma/100).toFixed(2)+"</b> com <b>"+contador+"</b> descontos").replace(".",",");
+	document.getElementById('pdfText').innerHTML = ("O total é <b>R$ "+(soma/100).toFixed(2)+"</b> com <b>"+contador+"</b> descontos de <b>R$ "+(minV/100).toFixed(2)+" - R$ "+(maxV/100).toFixed(2)+"</b>").replaceAll(".",",");
 escreve = false;
 
 }
