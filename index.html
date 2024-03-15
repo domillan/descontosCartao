@@ -39,7 +39,11 @@ border-spacing: 2px;
             <label for="fileInput" class="form-label">Selecione o arquivo PDF:</label>
             <input type="file" id="fileInput" class="form-control" accept=".pdf">
         </div>
-    </div>
+<div class="col-md-3">
+<div id="divImg" class="d-none">
+ <button onclick="divImg.classList.toggle('d-none');" class="mt-1 btn btn-sm btn-outline-danger">X</button>
+	<img id="imagemBanco"  src="./cod banco.png" class="rounded float-right position-absolute" style="max-width:400px;" alt="..."></div>
+    </div></div>
     <div class="row mt-4">
         <div class="col-md-3">
             <label for="numBanco" class="form-label">Código do banco:</label>
@@ -61,9 +65,7 @@ border-spacing: 2px;
     <li class="dropdown-item" value="623" onclick="preenche(this)">Pan</li>
     <li class="dropdown-item text-black-50" onclick="divImg.classList.toggle('d-none');"><i>Detalhes</i></li>
   </ul>
-</div><div id="divImg" class="d-none">
- <button onclick="divImg.classList.toggle('d-none');" class="mt-1 btn btn-sm btn-outline-danger">X</button>
-	<img id="imagemBanco"  src="./cod banco.png" class="rounded float-right position-absolute" style="max-width:400px;" alt="..."></div>
+</div>
       </div>
     </div>
 
@@ -99,6 +101,7 @@ var doc = [];
 var contador = 0;
 var soma = 0.0;
 var inicio;
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
 
 function preenche(e) {
 	banco.value = e.innerHTML;
