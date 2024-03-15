@@ -151,7 +151,7 @@ function renderPage(pdf, pageNumber, maxPages) {
             }	
 		if(escreve){
 			let lista = [];
-			finalText.split(numBanco.value).forEach((paragraph)=>{
+			finalText.split(numBanco.value+" -").forEach((paragraph)=>{
 				while(paragraph.indexOf(";") != paragraph.indexOf(";R$"))
 				{
 				  paragraph = paragraph.replace(";", " ");
