@@ -51,11 +51,11 @@ border-spacing: 2px;
     <div class="row mt-4">
         <div class="col-md-3">
             <label for="numBanco" class="form-label">Código do banco:</label>
-            <input type="number" placeholder="000" required id="numBanco" class="form-control">
+            <input type="number" placeholder="" required min="0" id="numBanco" class="form-control">
         </div>
         <div class="col-md-3">
             <label for="banco" class="form-label">Nome do banco:</label>
-            <input type="text" placeholder="??" required id="banco" class="form-control">
+            <input type="text" placeholder="" required id="banco" class="form-control">
         </div>
 	<div class="col-md-3">
 <div class="dropdown">
@@ -81,8 +81,8 @@ border-spacing: 2px;
             <input class="form-check-input" type="checkbox" checked id="datasDesc">
         </div><div class="col-md-3 ">
         <select id="tipoDesconto" class="form-select form-select-sm">
-          <option  value="RMC" selected>Cartão RMC</option>
-          <option value="RCC">Cartão RCC</option>
+          <option  value="(RMC)" selected>Cartão RMC</option>
+          <option value="(RCC)">Cartão RCC</option>
         </select>
         </div>
     </div>
@@ -93,7 +93,8 @@ border-spacing: 2px;
     </div>
     <div class="row mt-4">
         <div class="col-md-12">
-            <h4><div id="pdfText" class="mt-4"></div> </h4>
+            <h6 id="avisoPDF" class="text-danger"></h6>
+            <h4><div id="pdfText" class="mt-4"></div></h4>
             <button id="copiarB" class="btn btn-sm btn-outline-info d-none" onclick="copy()">Copiar</button> <i id="avisoB"></i>
         </div>
     </div>
@@ -124,7 +125,10 @@ function preenche(e) {
 
 function lerArq() {
     var file = document.getElementById('fileInput').files[0];
-    if (!file) return;
+    if (!file){
+         document.getElementById('avisoPDF').innerHTML = "<b>Aviso:</b> selecione um arquivo PDF.";
+         return;
+      }
 
     var reader = new FileReader();
     reader.onload = function(e) {
@@ -195,6 +199,7 @@ function calc()
     
     document.getElementById("lista").innerHTML = "";
     document.getElementById('pdfText').innerHTML = "";
+    document.getElementById('avisoPDF').innerHTML = "";
 	document.getElementById('avisoB').innerHTML="";
 	contador = 0;
 	soma = 0.0;
@@ -205,6 +210,7 @@ function calc()
 
     if(banco.value=="" || numBanco.value==""){
        copiarB.classList.add("d-none");
+         document.getElementById('avisoPDF').innerHTML = "<b>Aviso:</b> preencha os campos em branco.";
        return;
     }
     if (datasDesc.checked == true)
@@ -222,7 +228,7 @@ function calc()
 
 	doc.forEach((item)=>{
     	dados = item.split(";");
-    	if(dados[0].toLowerCase().includes(banco.value.toLowerCase()) && dados[7].includes(tipoDesconto.value)){
+    	if(dados[0].toLowerCase().includes(banco.value.toLowerCase()) && dados[7] == tipoDesconto.value){
 		let val = parseFloat((dados[5]+"").replace("R$", "").replace(",", ""));
     		soma += val;
 		if(val>maxV) maxV = val;
@@ -241,7 +247,7 @@ function calc()
       escreve = false;
 	if(contador < 1){
          copiarB.classList.add("d-none");
-         document.getElementById('pdfText').innerHTML = "Não foram identificados descontos, verifique o preenchimento dos dados";
+         document.getElementById('avisoPDF').innerHTML = "Não foram identificados descontos, verifique se os dados foram preenchidos corretamente.";
       }
       else{
           copiarB.classList.remove("d-none");
