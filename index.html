@@ -217,7 +217,7 @@ function calc()
 
 	doc.forEach((item)=>{
     	dados = item.split(";");
-    	if(dados[0].toLowerCase().includes(banco.value.toLowerCase())){
+    	if(dados[0].toLowerCase().includes(banco.value.toLowerCase()) && dados[7].includes("RMC")){
 		let val = parseFloat((dados[5]+"").replace("R$", "").replace(",", ""));
     		soma += val;
 		if(val>maxV) maxV = val;
