@@ -50,27 +50,25 @@ border-spacing: 2px;
     </div></div>
     <div class="row mt-4">
         <div class="col-md-3">
+            <label for="banco" class="form-label">Nome do banco:</label>
+            <div class="input-group mb-3">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+              <ul class="dropdown-menu">
+                <li class="dropdown-item" value="318" onclick="preenche(this)">BMG</li>
+                <li class="dropdown-item" value="336" onclick="preenche(this)">C6</li>
+                <li class="dropdown-item" value="104" onclick="preenche(this)">Caixa</li>
+                <li class="dropdown-item" value="739" onclick="preenche(this)">Cetelem</li>
+                <li class="dropdown-item" value="707" onclick="preenche(this)">Daycoval</li>
+                <li class="dropdown-item" value="623" onclick="preenche(this)">Pan</li>
+                <li class="dropdown-item text-black-50" onclick="divImg.classList.toggle('d-none');"><i>Detalhes</i></li>
+              </ul>
+                <input type="text" placeholder="" required id="banco" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
             <label for="numBanco" class="form-label">Código do banco:</label>
             <input type="number" placeholder="" required min="0" id="numBanco" class="form-control">
         </div>
-        <div class="col-md-3">
-            <label for="banco" class="form-label">Nome do banco:</label>
-            <input type="text" placeholder="" required id="banco" class="form-control">
-        </div>
-	<div class="col-md-3">
-<div class="dropdown">
-  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
-  <ul class="dropdown-menu">
-    <li class="dropdown-item" value="318" onclick="preenche(this)">BMG</li>
-    <li class="dropdown-item" value="336" onclick="preenche(this)">C6</li>
-    <li class="dropdown-item" value="104" onclick="preenche(this)">Caixa</li>
-    <li class="dropdown-item" value="739" onclick="preenche(this)">Cetelem</li>
-    <li class="dropdown-item" value="707" onclick="preenche(this)">Daycoval</li>
-    <li class="dropdown-item" value="623" onclick="preenche(this)">Pan</li>
-    <li class="dropdown-item text-black-50" onclick="divImg.classList.toggle('d-none');"><i>Detalhes</i></li>
-  </ul>
-</div>
-      </div>
     </div>
 
     <div class="row mt-4">
